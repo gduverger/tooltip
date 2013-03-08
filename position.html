@@ -1,0 +1,22 @@
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/reset/reset-min.css">
+	<link rel="stylesheet" href="position.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<script src="jquery.position.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+	
+	<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+		<circle class="target" cx="50%" cy="50%" r="5" fill="#111">
+	</svg>
+	
+	<div id="tooltip">#tooltip</div>
+	
+	<script>
+	$.fn.appendRandomTargetsTo(".target", "svg");
+	$(".target").positionTooltip({ "borderPadding": 5, "$tooltip": $("#tooltip") });
+	</script>
+
+</body>
+</html>
