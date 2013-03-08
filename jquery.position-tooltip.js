@@ -88,7 +88,7 @@
 			return this;
 		},
 		
-		appendRandomTargetsTo: function(targetSelector, appendToSelector) {
+		appendRandomClonesTo: function(targetSelector, appendToSelector) {
 			for (var j=0; j<100; j++) {
 				$(targetSelector).eq(0).clone(false).attr({
 					"cy": Math.floor(Math.random()*pageDimension.height),
