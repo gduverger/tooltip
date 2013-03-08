@@ -41,27 +41,29 @@
 
 	$.fn.extend({
 		positionTooltip: function(options) {
-			var settings, tooltipDimension;
+			var settings;
 			
 			settings = $.extend( {}, {
 					$tooltip: $("#tooltip"),
 					borderPadding: 0,
 					dataPosition: "position",
-					order: ["right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right"]
-				}, options ),
-				
-
-			tooltipDimension = {
-				"width": settings.$tooltip.outerWidth(true),
-				"height": settings.$tooltip.outerHeight(true)
-			};
+					order: ["right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right"],
+					mouseover: function() {}
+				}, options );
 
 			this.each(function() {
-				var $target, targetOffset, targetDimension, tooltipOffset;
-				
-				$(this).on("mouseover", function(e) {
-					$target = $(this);
-					targetOffset = $target.offset();			
+				var $target, tooltipDimension, targetOffset, targetDimension, tooltipOffset;
+
+				$target = $(this);
+				$target.on("mouseover", function() {
+
+					settings.mouseover($target, settings.$tooltip);
+					tooltipDimension = {
+						"width": settings.$tooltip.outerWidth(true),
+						"height": settings.$tooltip.outerHeight(true)
+					};
+
+					targetOffset = $target.offset();
 					targetDimension = {
 						"top": targetOffset.top,
 						"left": targetOffset.left,
@@ -111,7 +113,6 @@
 			"height": $page.height(),
 			"width": $page.width()
 		};
-		//return page;
 	};
 
 	var pageDimension;
