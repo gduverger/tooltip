@@ -52,8 +52,8 @@
 				
 
 			tooltipDimension = {
-				"width": settings.$tooltip.outerWidth(),
-				"height": settings.$tooltip.outerHeight()
+				"width": settings.$tooltip.outerWidth(true),
+				"height": settings.$tooltip.outerHeight(true)
 			};
 
 			this.each(function() {
@@ -65,8 +65,8 @@
 					targetDimension = {
 						"top": targetOffset.top,
 						"left": targetOffset.left,
-						"width": $target.outerWidth() || parseInt($target.attr("r"))*2,
-						"height": $target.outerHeight() || parseInt($target.attr("r")*2)
+						"width": $target.outerWidth(true) || parseInt($target.attr("r"))*2,
+						"height": $target.outerHeight(true) || parseInt($target.attr("r")*2)
 					}
 			
 					tooltipOffset = positions[ $target.data(settings.dataPosition) || settings.order[0] ](targetDimension, tooltipDimension);
