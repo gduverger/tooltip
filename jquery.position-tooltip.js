@@ -74,7 +74,6 @@
 					var i = 0;
 					while(!fitOnPage(tooltipOffset, tooltipDimension, settings.borderPadding) && i < settings.order.length) {
 						tooltipOffset = positions[settings.order[i++]](targetDimension, tooltipDimension);
-						console.log(tooltipOffset);
 					}
 					// TODO fallback if none of the positions fit
 
