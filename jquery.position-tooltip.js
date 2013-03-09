@@ -1,16 +1,10 @@
-/*!
- * PositionTooltip
- * by Georges Duverger
- * http://gduverger.com/
- */
-
-//    left-top --- top-center ---- top-right
-//           |                     |
-// left-middle       target        right-middle (*)
-//           |                     |
-// bottom-left -- bottom-center -- right-bottom
-
 (function( $ ){
+
+    //    left-top --- top-center ---- top-right
+    //           |                     |
+    // left-middle       target        right-middle [0]
+    //           |                     |
+    // bottom-left -- bottom-center -- right-bottom
 
     var positions = {
         "right-middle": function( target, tooltip ) {
