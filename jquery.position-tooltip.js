@@ -39,85 +39,85 @@
         }
     }
 
-	$.fn.extend({
-		positionTooltip: function( options ) {
-			var settings;
-			
-			settings = $.extend( {}, {
-					$tooltip: $("#tooltip"),
-					borderPadding: 0,
-					dataPosition: "position",
-					order: ["right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right"],
-					mouseover: function() {}
-				}, options );
+    $.fn.extend({
+        positionTooltip: function( options ) {
+            var settings;
 
-			this.each(function() {
-				var $target, tooltipDimension, targetOffset, targetDimension, tooltipOffset;
+            settings = $.extend( {}, {
+                $tooltip: $("#tooltip"),
+                borderPadding: 0,
+                dataPosition: "position",
+                order: [ "right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right" ],
+                mouseover: function() {}
+            }, options );
 
-				$target = $( this );
-				$target.on( "mouseover", function() {
+            this.each(function() {
+                var $target, tooltipDimension, targetOffset, targetDimension, tooltipOffset;
 
-					settings.mouseover( $target, settings.$tooltip );
-					tooltipDimension = {
-						"width": settings.$tooltip.outerWidth( true ),
-						"height": settings.$tooltip.outerHeight( true )
-					};
+                $target = $( this );
+                $target.on( "mouseover", function() {
 
-					targetOffset = $target.offset();
-					targetDimension = {
-						"top": targetOffset.top,
-						"left": targetOffset.left,
-						"width": $target.outerWidth( true ) || parseInt( $target.attr("r") ) * 2,
-						"height": $target.outerHeight( true ) || parseInt( $target.attr("r") ) * 2
-					}
-			
-					tooltipOffset = positions[ $target.data( settings.dataPosition ) || settings.order[0] ]( targetDimension, tooltipDimension );
+                    settings.mouseover( $target, settings.$tooltip );
+                    tooltipDimension = {
+                        width: settings.$tooltip.outerWidth( true ),
+                        height: settings.$tooltip.outerHeight( true )
+                    };
 
-					var i = 0;
-					while ( !fitOnPage( tooltipOffset, tooltipDimension, settings.borderPadding ) && i < settings.order.length ) {
-						tooltipOffset = positions[ settings.order[ i++ ] ]( targetDimension, tooltipDimension );
-					}
-					// TODO fallback if none of the positions fit
+                    targetOffset = $target.offset();
+                    targetDimension = {
+                        top: targetOffset.top,
+                        left: targetOffset.left,
+                        width: $target.outerWidth( true ) || parseInt( $target.attr("r") ) * 2,
+                        height: $target.outerHeight( true ) || parseInt( $target.attr("r") ) * 2
+                    }
 
-					settings.$tooltip.css( tooltipOffset ).show();
-			
-				}).on( "mouseout", function() {
-					settings.$tooltip.hide();
-				});				
-			});
-			
-			return this;
-		},
-		
-		appendRandomClonesTo: function( targetSelector, appendToSelector ) {
-			for ( var j = 0; j < 100; j++ ) {
-				$( targetSelector ).eq( 0 ).clone( false ).attr({
-					cy: Math.floor( Math.random() * pageDimension.height ),
-					cx: Math.floor( Math.random() * pageDimension.width )
-				}).appendTo( appendToSelector );
-			}
-			return this;
-		}
-	});
+                    tooltipOffset = positions[ $target.data( settings.dataPosition ) || settings.order[0] ]( targetDimension, tooltipDimension );
 
-	var fitOnPage = function( tooltipOffset, tooltipDimension, borderPadding ) {
-		return tooltipOffset.top > borderPadding
-			&& tooltipOffset.top + tooltipDimension.height < pageDimension.height - borderPadding
-			&& tooltipOffset.left > borderPadding
-			&& tooltipOffset.left + tooltipDimension.width < pageDimension.width - borderPadding;
-	};
+                    var i = 0;
+                    while ( !fitOnPage( tooltipOffset, tooltipDimension, settings.borderPadding ) && i < settings.order.length ) {
+                        tooltipOffset = positions[ settings.order[ i++ ] ]( targetDimension, tooltipDimension );
+                    }
+                    // TODO fallback if none of the positions fit
+
+                    settings.$tooltip.css( tooltipOffset ).show();
+
+                }).on( "mouseout", function() {
+                    settings.$tooltip.hide();
+                });
+            });
+
+            return this;
+        },
+
+        appendRandomClonesTo: function( targetSelector, appendToSelector ) {
+            for ( var j = 0; j < 100; j++ ) {
+                $( targetSelector ).eq( 0 ).clone( false ).attr({
+                    cy: Math.floor( Math.random() * pageDimension.height ),
+                    cx: Math.floor( Math.random() * pageDimension.width )
+                }).appendTo( appendToSelector );
+            }
+            return this;
+        }
+    });
+
+    var fitOnPage = function( tooltipOffset, tooltipDimension, borderPadding ) {
+        return tooltipOffset.top > borderPadding
+            && tooltipOffset.top + tooltipDimension.height < pageDimension.height - borderPadding
+            && tooltipOffset.left > borderPadding
+            && tooltipOffset.left + tooltipDimension.width < pageDimension.width - borderPadding;
+    };
 	
-	var setPageDimension = function() {
-		var $page = $( window );
-		pageDimension = {
-			height: $page.height(),
-			width: $page.width()
-		};
-	};
+    var setPageDimension = function() {
+        var $page = $( window );
+        pageDimension = {
+            height: $page.height(),
+            width: $page.width()
+        };
+    };
 
-	var pageDimension;
+    var pageDimension;
 
-	$( window ).resize( setPageDimension );
-	setPageDimension();
+    $( window ).resize( setPageDimension );
+    setPageDimension();
 
 })( jQuery );
