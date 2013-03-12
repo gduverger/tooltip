@@ -11,25 +11,25 @@
             return { top: target.top + ( target.height / 2 ) - ( tooltip.height / 2 ), left: target.left + target.width };
         },
         "right-bottom": function( target, tooltip ) {
-            return { top: target.top + target.height, left: target.left + target.width };
+            return { top: target.top + ( target.height / 2 ), left: target.left + target.width };
         },
         "bottom-center": function( target, tooltip ) {
             return { top: target.top + target.height, left: target.left + ( target.width / 2 ) - ( tooltip.width / 2 ) };
         },
         "bottom-left": function( target, tooltip ) {
-            return { top: target.top + target.height, left: target.left - tooltip.width };
+            return { top: target.top + ( target.height / 2 ), left: target.left - tooltip.width };
         },
         "left-middle": function( target, tooltip ) {
             return { top: target.top + ( target.height / 2 ) - ( tooltip.height / 2 ), left: target.left - tooltip.width };
         },
         "left-top": function( target, tooltip ) {
-            return { top: target.top - tooltip.height, left: target.left - tooltip.width };
+            return { top: target.top + ( target.height / 2 ) - tooltip.height, left: target.left - tooltip.width };
         },
         "top-center": function( target, tooltip ) {
             return { top: target.top - tooltip.height, left: target.left + ( target.width / 2 ) - ( tooltip.width / 2 ) };
         },
         "top-right": function( target, tooltip ) {
-            return { top: target.top - tooltip.height, left: target.left + target.width };
+            return { top: target.top + ( target.height / 2 ) - tooltip.height, left: target.left + target.width };
         }
     }
 
@@ -42,16 +42,19 @@
                 borderPadding: 0,
                 dataPosition: "position",
                 order: [ "right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right" ],
-                mouseover: function() {}
+                mouseoverCallback: function() {}
             }, options );
 
             this.each(function() {
-                var $target, tooltipDimension, targetOffset, targetDimension, tooltipOffset;
+                var $target, tooltipDimension, targetOffset, targetDimension, tooltipClass, tooltipOffset;
 
                 $target = $( this );
                 $target.on( "mouseover", function() {
 
-                    settings.mouseover( $target, settings.$tooltip );
+                    settings.$tooltip.removeClass( settings.order.join(" ") );
+
+                    settings.mouseoverCallback( $target, settings.$tooltip );
+
                     tooltipDimension = {
                         width: settings.$tooltip.outerWidth( true ),
                         height: settings.$tooltip.outerHeight( true )
@@ -65,15 +68,17 @@
                         height: $target.outerHeight( true ) || parseInt( $target.attr("r") ) * 2
                     }
 
-                    tooltipOffset = positions[ $target.data( settings.dataPosition ) || settings.order[0] ]( targetDimension, tooltipDimension );
+                    tooltipClass = $target.data( settings.dataPosition ) || settings.order[0];
+                    tooltipOffset = positions[ tooltipClass ]( targetDimension, tooltipDimension );
 
                     var i = 0;
                     while ( !fitOnPage( tooltipOffset, tooltipDimension, settings.borderPadding ) && i < settings.order.length ) {
-                        tooltipOffset = positions[ settings.order[ i++ ] ]( targetDimension, tooltipDimension );
+                        tooltipClass = settings.order[ i++ ];
+                        tooltipOffset = positions[ tooltipClass ]( targetDimension, tooltipDimension );
                     }
                     // TODO fallback if none of the positions fit
 
-                    settings.$tooltip.css( tooltipOffset ).show();
+                    settings.$tooltip.css( tooltipOffset ).addClass( tooltipClass ).show();
 
                 }).on( "mouseout", function() {
                     settings.$tooltip.hide();

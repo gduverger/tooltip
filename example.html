@@ -18,8 +18,8 @@
 	$(".target").positionTooltip({
 		borderPadding: 5,
 		$tooltip: $("#tooltip"),
-		mouseover: function($target, $tooltip) {
-			$tooltip.text( $target.attr("alt") );
+		mouseoverCallback: function($target, $tooltip) {
+			$tooltip.text( $target.attr("class") );
 		}
 	});
 	</script>
