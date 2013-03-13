@@ -42,7 +42,9 @@
                 borderPadding: 0,
                 dataPosition: "position",
                 order: [ "right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right" ],
-                mouseoverCallback: function() {}
+                beforeMouseoverCallback: function( $target, $tooltip ) {},
+                afterMouseoverCallback: function( $target, $tooltip ) {},
+                clickCallback: function( $target, $tooltip ) {}
             }, options );
 
             this.each(function() {
@@ -51,9 +53,9 @@
                 $target = $( this );
                 $target.on( "mouseover", function() {
 
-                    settings.$tooltip.removeClass( settings.order.join(" ") );
+                    settings.beforeMouseoverCallback( $target, settings.$tooltip );
 
-                    settings.mouseoverCallback( $target, settings.$tooltip );
+                    settings.$tooltip.removeClass( settings.order.join(" ") );
 
                     tooltipDimension = {
                         width: settings.$tooltip.outerWidth( true ),
@@ -80,8 +82,16 @@
 
                     settings.$tooltip.css( tooltipOffset ).addClass( tooltipClass ).show();
 
+                    settings.afterMouseoverCallback( $target, settings.$tooltip );
+
                 }).on( "mouseout", function() {
+
                     settings.$tooltip.hide();
+
+                }).on( "click", function() {
+
+                    settings.clickCallback( $target, settings.$tooltip );
+
                 });
             });
 
