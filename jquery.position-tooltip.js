@@ -44,19 +44,19 @@
                 borderPadding: 0,
                 dataPosition: "position",
                 order: [ "right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right" ],
-                beforeShowCallback: function( $target, $tooltip ) { return true; },
-                afterShowCallback: function( $target, $tooltip ) {},
-                beforeHideCallback: function( $target, $tooltip ) { return true; },
-                afterHideCallback: function( $target, $tooltip ) {},
+                beforeShowCallback: function( event, $target, $tooltip ) { return true; },
+                afterShowCallback: function( event, $target, $tooltip ) {},
+                beforeHideCallback: function( event, $target, $tooltip ) { return true; },
+                afterHideCallback: function( event, $target, $tooltip ) {},
             }, options );
 
             this.each(function() {
                 var $target, tooltipDimension, targetOffset, targetDimension, tooltipClass, tooltipOffset;
 
                 $target = $( this );
-                $target.on( settings.showOn, function() {
+                $target.on( settings.showOn, function( event ) {
 
-                    if ( !settings.beforeShowCallback( $target, settings.$tooltip ) ) return null;
+                    if ( !settings.beforeShowCallback( event, $target, settings.$tooltip ) ) return null;
 
                     settings.$tooltip.removeClass( settings.order.join(" ") );
 
@@ -85,13 +85,13 @@
 
                     settings.$tooltip.css( tooltipOffset ).addClass( tooltipClass ).show();
 
-                    settings.afterShowCallback( $target, settings.$tooltip );
+                    settings.afterShowCallback( event, $target, settings.$tooltip );
 
-                }).on( settings.hideOn, function() {
+                }).on( settings.hideOn, function( event ) {
 
-                    if ( !settings.beforeHideCallback( $target, settings.$tooltip ) ) return null;
+                    if ( !settings.beforeHideCallback( event, $target, settings.$tooltip ) ) return null;
                     settings.$tooltip.hide();
-                    settings.afterHideCallback( $target, settings.$tooltip );
+                    settings.afterHideCallback( event, $target, settings.$tooltip );
 
                 });
             });
