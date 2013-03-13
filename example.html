@@ -22,7 +22,7 @@
         hideOn: "mouseout",
 		borderPadding: 5,
 		$tooltip: $("#tooltip"),
-		beforeShowCallback: function($target, $tooltip) {
+		beforeShowCallback: function( event, $target, $tooltip) {
 			$tooltip.text( $target.attr("class") );
             return true;
 		}
