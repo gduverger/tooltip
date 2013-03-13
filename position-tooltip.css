@@ -1,4 +1,4 @@
-#tooltip {
+.tooltip {
     position: absolute;
     background-color: #111;
     color: #fdfdfd;
@@ -14,16 +14,16 @@
 /*           |                     |            */
 /* bottom-left -- bottom-center -- right-bottom */
 
-#tooltip.right-middle { margin-left: 10px; }
-#tooltip.right-bottom { margin-left: 10px; border-top-left-radius: 0; }
-#tooltip.bottom-center { margin-top: 10px; }
-#tooltip.bottom-left { margin-left: -10px; border-top-right-radius: 0; }
-#tooltip.left-middle { margin-left: -10px; }
-#tooltip.left-top { margin-left: -10px; border-bottom-right-radius: 0; }
-#tooltip.top-center { margin-top: -10px; }
-#tooltip.top-right { margin-left: 10px; border-bottom-left-radius: 0; }
+.tooltip.right-middle { margin-left: 10px; }
+.tooltip.right-bottom { margin-left: 10px; border-top-left-radius: 0; }
+.tooltip.bottom-center { margin-top: 10px; }
+.tooltip.bottom-left { margin-left: -10px; border-top-right-radius: 0; }
+.tooltip.left-middle { margin-left: -10px; }
+.tooltip.left-top { margin-left: -10px; border-bottom-right-radius: 0; }
+.tooltip.top-center { margin-top: -10px; }
+.tooltip.top-right { margin-left: 10px; border-bottom-left-radius: 0; }
 
-#tooltip:before {
+.tooltip:before {
     content: "";
     position: absolute;
     margin: 0;
@@ -39,7 +39,7 @@
     _filter: chroma(color=#111);
 }
 
-#tooltip.right-middle:before {
+.tooltip.right-middle:before {
     margin-top: -10px;
     top: 50%;
     left: -10px;
@@ -49,7 +49,7 @@
     border-right: 10px solid #111;
 }
 
-#tooltip.right-bottom:before {
+.tooltip.right-bottom:before {
     top: 0;
     left: -10px;
     border-left: 0;
@@ -60,7 +60,7 @@
 }
 
 
-#tooltip.bottom-center:before {
+.tooltip.bottom-center:before {
     top: -10px;
     left: 50%;
     margin-left: -10px;
@@ -70,7 +70,7 @@
     border-right: 10px solid transparent;
 }
 
-#tooltip.bottom-left:before {
+.tooltip.bottom-left:before {
     top: 0;
     right: -10px;
     border-left: 0;
@@ -80,7 +80,7 @@
     border-bottom: 5px solid transparent;
 }
 
-#tooltip.left-middle:before {
+.tooltip.left-middle:before {
     top: 50%;
     margin-top: -10px;
     right: -10px;
@@ -90,7 +90,7 @@
     border-bottom: 10px solid transparent;
 }
 
-#tooltip.left-top:before {
+.tooltip.left-top:before {
     bottom: 0;
     right: -10px;
     border-bottom: 5px solid #111;
@@ -99,7 +99,7 @@
     border-right: 5px solid transparent;
 }
 
-#tooltip.top-center:before {
+.tooltip.top-center:before {
     left: 50%;
     margin-left: -10px;
     bottom: -10px;
@@ -109,7 +109,7 @@
     border-right: 10px solid transparent;
 }
 
-#tooltip.top-right:before {
+.tooltip.top-right:before {
     bottom: 0;
     left: -10px;
     bottom: 0;

@@ -7,29 +7,29 @@
     // bottom-left -- bottom-center -- right-bottom
 
     var positions = {
-        "right-middle": function( target, tooltip ) {
-            return { top: target.top + ( target.height / 2 ) - ( tooltip.height / 2 ), left: target.left + target.width };
+        "right-middle": function( targetDimension, tooltipDimension ) {
+            return { top: targetDimension.top + ( targetDimension.height / 2 ) - ( tooltipDimension.height / 2 ), left: targetDimension.left + targetDimension.width };
         },
-        "right-bottom": function( target, tooltip ) {
-            return { top: target.top + ( target.height / 2 ), left: target.left + target.width };
+        "right-bottom": function( targetDimension, tooltipDimension ) {
+            return { top: targetDimension.top + ( targetDimension.height / 2 ), left: targetDimension.left + targetDimension.width };
         },
-        "bottom-center": function( target, tooltip ) {
-            return { top: target.top + target.height, left: target.left + ( target.width / 2 ) - ( tooltip.width / 2 ) };
+        "bottom-center": function( targetDimension, tooltipDimension ) {
+            return { top: targetDimension.top + targetDimension.height, left: targetDimension.left + ( targetDimension.width / 2 ) - ( tooltipDimension.width / 2 ) };
         },
-        "bottom-left": function( target, tooltip ) {
-            return { top: target.top + ( target.height / 2 ), left: target.left - tooltip.width };
+        "bottom-left": function( targetDimension, tooltipDimension ) {
+            return { top: targetDimension.top + ( targetDimension.height / 2 ), left: targetDimension.left - tooltipDimension.width };
         },
-        "left-middle": function( target, tooltip ) {
-            return { top: target.top + ( target.height / 2 ) - ( tooltip.height / 2 ), left: target.left - tooltip.width };
+        "left-middle": function( targetDimension, tooltipDimension ) {
+            return { top: targetDimension.top + ( targetDimension.height / 2 ) - ( tooltipDimension.height / 2 ), left: targetDimension.left - tooltipDimension.width };
         },
-        "left-top": function( target, tooltip ) {
-            return { top: target.top + ( target.height / 2 ) - tooltip.height, left: target.left - tooltip.width };
+        "left-top": function( targetDimension, tooltipDimension ) {
+            return { top: targetDimension.top + ( targetDimension.height / 2 ) - tooltipDimension.height, left: targetDimension.left - tooltipDimension.width };
         },
-        "top-center": function( target, tooltip ) {
-            return { top: target.top - tooltip.height, left: target.left + ( target.width / 2 ) - ( tooltip.width / 2 ) };
+        "top-center": function( targetDimension, tooltipDimension ) {
+            return { top: targetDimension.top - tooltipDimension.height, left: targetDimension.left + ( targetDimension.width / 2 ) - ( tooltipDimension.width / 2 ) };
         },
-        "top-right": function( target, tooltip ) {
-            return { top: target.top + ( target.height / 2 ) - tooltip.height, left: target.left + target.width };
+        "top-right": function( targetDimension, tooltipDimension ) {
+            return { top: targetDimension.top + ( targetDimension.height / 2 ) - tooltipDimension.height, left: targetDimension.left + targetDimension.width };
         }
     }
 
@@ -38,22 +38,25 @@
             var settings;
 
             settings = $.extend( {}, {
+                showOn: "mouseover",
+                hideOn: "mouseout",
                 $tooltip: $("#tooltip"),
                 borderPadding: 0,
                 dataPosition: "position",
                 order: [ "right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right" ],
-                beforeMouseoverCallback: function( $target, $tooltip ) {},
-                afterMouseoverCallback: function( $target, $tooltip ) {},
-                clickCallback: function( $target, $tooltip ) {}
+                beforeShowCallback: function( $target, $tooltip ) { return true; },
+                afterShowCallback: function( $target, $tooltip ) {},
+                beforeHideCallback: function( $target, $tooltip ) { return true; },
+                afterHideCallback: function( $target, $tooltip ) {},
             }, options );
 
             this.each(function() {
                 var $target, tooltipDimension, targetOffset, targetDimension, tooltipClass, tooltipOffset;
 
                 $target = $( this );
-                $target.on( "mouseover", function() {
+                $target.on( settings.showOn, function() {
 
-                    settings.beforeMouseoverCallback( $target, settings.$tooltip );
+                    if ( !settings.beforeShowCallback( $target, settings.$tooltip ) ) return null;
 
                     settings.$tooltip.removeClass( settings.order.join(" ") );
 
@@ -82,15 +85,13 @@
 
                     settings.$tooltip.css( tooltipOffset ).addClass( tooltipClass ).show();
 
-                    settings.afterMouseoverCallback( $target, settings.$tooltip );
+                    settings.afterShowCallback( $target, settings.$tooltip );
 
-                }).on( "mouseout", function() {
+                }).on( settings.hideOn, function() {
 
+                    if ( !settings.beforeHideCallback( $target, settings.$tooltip ) ) return null;
                     settings.$tooltip.hide();
-
-                }).on( "click", function() {
-
-                    settings.clickCallback( $target, settings.$tooltip );
+                    settings.afterHideCallback( $target, settings.$tooltip );
 
                 });
             });

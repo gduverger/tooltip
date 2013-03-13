@@ -10,18 +10,29 @@
 	<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
 		<circle class="target" cx="50%" cy="50%" r="5" fill="#111" alt=".target">
 	</svg>
-	
-	<div id="tooltip">#tooltip</div>
-	
+
+    <div id="tooltip" class="tooltip">#tooltip</div>
+
+    <div id="tooltip2" class="tooltip">#tooltip2</div>
+
 	<script>
 	$.fn.appendRandomClonesTo(".target", "svg");
 	$(".target").positionTooltip({
+        showOn: "mouseover",
+        hideOn: "mouseout",
 		borderPadding: 5,
 		$tooltip: $("#tooltip"),
-		mouseoverCallback: function($target, $tooltip) {
+		beforeShowCallback: function($target, $tooltip) {
 			$tooltip.text( $target.attr("class") );
+            return true;
 		}
 	});
+	$(".target").positionTooltip({
+        showOn: "click",
+        hideOn: "",
+		borderPadding: 5,
+		$tooltip: $("#tooltip2")
+    });
 	</script>
 
 </body>
