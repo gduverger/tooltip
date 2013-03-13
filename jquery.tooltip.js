@@ -34,16 +34,14 @@
     }
 
     $.fn.extend({
-        positionTooltip: function( options ) {
-            var settings;
+        tooltip: function( options ) {
 
-            settings = $.extend( {}, {
+            var settings = $.extend( {}, {
                 showOn: "mouseover",
                 hideOn: "mouseout",
                 $tooltip: $("#tooltip"),
-                borderPadding: 0,
-                dataPosition: "position",
-                order: [ "right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right" ],
+                extraMargins: { top: 0, right: 0, bottom: 0, left: 0 },
+                preferredPositions: [ "right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right" ],
                 beforeShowCallback: function( event, $target, $tooltip ) { return true; },
                 afterShowCallback: function( event, $target, $tooltip ) {},
                 beforeHideCallback: function( event, $target, $tooltip ) { return true; },
@@ -58,7 +56,7 @@
 
                     if ( !settings.beforeShowCallback( event, $target, settings.$tooltip ) ) return null;
 
-                    settings.$tooltip.removeClass( settings.order.join(" ") );
+                    settings.$tooltip.removeClass( settings.preferredPositions.join(" ") ).removeAttr( "style" );
 
                     tooltipDimension = {
                         width: settings.$tooltip.outerWidth( true ),
@@ -73,12 +71,12 @@
                         height: $target.outerHeight( true ) || parseInt( $target.attr("r") ) * 2
                     }
 
-                    tooltipClass = $target.data( settings.dataPosition ) || settings.order[0];
+                    tooltipClass = settings.preferredPositions[0];
                     tooltipOffset = positions[ tooltipClass ]( targetDimension, tooltipDimension );
 
                     var i = 0;
-                    while ( !fitOnPage( tooltipOffset, tooltipDimension, settings.borderPadding ) && i < settings.order.length ) {
-                        tooltipClass = settings.order[ i++ ];
+                    while ( !fitOnPage( tooltipOffset, tooltipDimension, settings.extraMargins ) && i < settings.preferredPositions.length ) {
+                        tooltipClass = settings.preferredPositions[ i++ ];
                         tooltipOffset = positions[ tooltipClass ]( targetDimension, tooltipDimension );
                     }
                     // TODO fallback if none of the positions fit
@@ -97,35 +95,24 @@
             });
 
             return this;
-        },
-
-        appendRandomClonesTo: function( targetSelector, appendToSelector ) {
-            for ( var j = 0; j < 100; j++ ) {
-                $( targetSelector ).eq( 0 ).clone( false ).attr({
-                    cy: Math.floor( Math.random() * pageDimension.height ),
-                    cx: Math.floor( Math.random() * pageDimension.width )
-                }).appendTo( appendToSelector );
-            }
-            return this;
         }
     });
 
-    var fitOnPage = function( tooltipOffset, tooltipDimension, borderPadding ) {
-        return tooltipOffset.top > borderPadding
-            && tooltipOffset.top + tooltipDimension.height < pageDimension.height - borderPadding
-            && tooltipOffset.left > borderPadding
-            && tooltipOffset.left + tooltipDimension.width < pageDimension.width - borderPadding;
+    var fitOnPage = function( tooltipOffset, tooltipDimension, extraMargins ) {
+        return tooltipOffset.top - extraMargins.top > 0
+            && tooltipOffset.top + tooltipDimension.height + extraMargins.bottom < pageDimension.height
+            && tooltipOffset.left - extraMargins.left > 0
+            && tooltipOffset.left + tooltipDimension.width + extraMargins.right < pageDimension.width;
     };
 	
-    var setPageDimension = function() {
+    var pageDimension,
+        setPageDimension = function() {
         var $page = $( window );
         pageDimension = {
             height: $page.height(),
             width: $page.width()
         };
     };
-
-    var pageDimension;
 
     $( window ).resize( setPageDimension );
     setPageDimension();
