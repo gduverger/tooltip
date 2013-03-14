@@ -37,9 +37,10 @@
         tooltip: function( options ) {
 
             var settings = $.extend( {}, {
+                $box: $( window ),
                 showOn: "mouseover",
                 hideOn: "mouseout",
-                $tooltip: $("#tooltip"),
+                $tooltip: $( "#tooltip" ),
                 extraMargins: { top: 0, right: 0, bottom: 0, left: 0 },
                 preferredPositions: [ "right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right" ],
                 beforeShowCallback: function( event, $target, $tooltip ) { return true; },
@@ -47,6 +48,12 @@
                 beforeHideCallback: function( event, $target, $tooltip ) { return true; },
                 afterHideCallback: function( event, $target, $tooltip ) {},
             }, options );
+
+            var boxOffset = settings.$box.offset() || { top: 0, left: 0 },
+                boxDimension = {
+                height: settings.$box.height(),
+                width: settings.$box.width()
+            };
 
             this.each(function() {
                 var $target, tooltipDimension, targetOffset, targetDimension, tooltipClass, tooltipOffset;
@@ -67,15 +74,15 @@
                     targetDimension = {
                         top: targetOffset.top,
                         left: targetOffset.left,
-                        width: $target.outerWidth( true ) || parseInt( $target.attr("r") ) * 2,
-                        height: $target.outerHeight( true ) || parseInt( $target.attr("r") ) * 2
+                        width: $target.outerWidth( true ) || parseInt( $target.attr("r") ) * 2 || 0,
+                        height: $target.outerHeight( true ) || parseInt( $target.attr("r") ) * 2 || 0
                     }
 
                     tooltipClass = settings.preferredPositions[0];
                     tooltipOffset = positions[ tooltipClass ]( targetDimension, tooltipDimension );
 
                     var i = 0;
-                    while ( !fitOnPage( tooltipOffset, tooltipDimension, settings.extraMargins ) && i < settings.preferredPositions.length ) {
+                    while ( !doesFitInBox( tooltipOffset, tooltipDimension, settings.extraMargins, boxOffset, boxDimension ) && i < settings.preferredPositions.length ) {
                         tooltipClass = settings.preferredPositions[ i++ ];
                         tooltipOffset = positions[ tooltipClass ]( targetDimension, tooltipDimension );
                     }
@@ -98,23 +105,11 @@
         }
     });
 
-    var fitOnPage = function( tooltipOffset, tooltipDimension, extraMargins ) {
-        return tooltipOffset.top - extraMargins.top > 0
-            && tooltipOffset.top + tooltipDimension.height + extraMargins.bottom < pageDimension.height
-            && tooltipOffset.left - extraMargins.left > 0
-            && tooltipOffset.left + tooltipDimension.width + extraMargins.right < pageDimension.width;
+    var doesFitInBox = function( tooltipOffset, tooltipDimension, extraMargins, boxOffset, boxDimension ) {
+        return tooltipOffset.top - extraMargins.top > boxOffset.top
+            && tooltipOffset.top + tooltipDimension.height + extraMargins.bottom < boxOffset.top + boxDimension.height
+            && tooltipOffset.left - extraMargins.left > boxOffset.left
+            && tooltipOffset.left + tooltipDimension.width + extraMargins.right < boxOffset.left + boxDimension.width;
     };
-	
-    var pageDimension,
-        setPageDimension = function() {
-        var $page = $( window );
-        pageDimension = {
-            height: $page.height(),
-            width: $page.width()
-        };
-    };
-
-    $( window ).resize( setPageDimension );
-    setPageDimension();
 
 })( jQuery );
