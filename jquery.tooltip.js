@@ -37,10 +37,10 @@
         tooltip: function( options ) {
 
             var settings = $.extend( {}, {
-                $box: $( window ),
                 showOn: "mouseover",
                 hideOn: "mouseout",
                 $tooltip: $( "#tooltip" ),
+                $showInside: $( window ),
                 extraMargins: { top: 0, right: 0, bottom: 0, left: 0 },
                 preferredPositions: [ "right-middle", "right-bottom", "bottom-center", "bottom-left", "left-middle", "left-top", "top-center", "top-right" ],
                 beforeShowCallback: function( event, $target, $tooltip ) { return true; },
@@ -49,10 +49,10 @@
                 afterHideCallback: function( event, $target, $tooltip ) {},
             }, options );
 
-            var boxOffset = settings.$box.offset() || { top: 0, left: 0 },
+            var boxOffset = settings.$showInside.offset() || { top: 0, left: 0 },
                 boxDimension = {
-                height: settings.$box.height(),
-                width: settings.$box.width()
+                height: settings.$showInside.height(),
+                width: settings.$showInside.width()
             };
 
             this.each(function() {

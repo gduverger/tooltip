@@ -52,9 +52,9 @@
     appendRandomClonesTo( ".target", "svg" );
 
 	$( ".target" ).tooltip({
-        $box: $( "#box" ),
         showOn: "mouseover",
         hideOn: "mouseout",
+        $showInside: $( "#box" ),
 		$tooltip: $( "#overTooltip" ),
 		beforeShowCallback: function( event, $target, $tooltip ) {
 			// TODO something
@@ -62,9 +62,9 @@
 		}
 	});
 	$( ".target" ).tooltip({
-        $box: $( "#box" ),
         showOn: "click",
         hideOn: "",
+        $showInside: $( "#box" ),
 		$tooltip: $( "#clickTooltip" ),
         afterShowCallback: function( event, $target, $tooltip ) {
             event.stopPropagation();
