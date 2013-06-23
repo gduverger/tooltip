@@ -1,0 +1,222 @@
+@tooltip-background-color: #fff;
+@tooltip-color: #000;
+@tooltip-border-color: #ccc;
+@tooltip-border: 1px solid @tooltip-border-color;
+@tooltip-shadow: 5px 5px 10px rgba(0, 0, 0, .3);
+@tooltip-radius: 3px;
+@tooltip-padding: 15px 15px 15px 50px;
+@tooltip-z-index: 301;
+@tooltip-width: 150px;
+@tooltip-border-top-color: #f18e00;
+@tooltip-border-top: 3px solid @tooltip-border-top-color;
+@tooltip-font-size: 12px;
+@tooltip-line-height: 18px;
+
+.tooltip {
+    position: absolute;
+    background-color: @tooltip-background-color;
+    color: @tooltip-color;
+    display: none;
+    border: @tooltip-border;
+    border-top: @tooltip-border-top;
+    box-shadow: @tooltip-shadow;
+    padding: @tooltip-padding;
+    z-index: @tooltip-z-index;
+	width: @tooltip-width;
+	font-size: @tooltip-font-size;
+	line-height: @tooltip-line-height;
+	/* easy rounded corners for modern browsers */
+    -moz-border-radius: @tooltip-radius;
+    -webkit-border-radius: @tooltip-radius;
+    border-radius: @tooltip-radius;
+}
+
+.tooltip .notch {
+	position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 0;
+    border: @tooltip-border;
+    /* ie6 height fix */
+    font-size: 0;
+    line-height: 0;
+     /* ie6 transparent fix */
+    _border-right-color: @tooltip-background-color;
+    _border-left-color: @tooltip-background-color;
+    _filter: chroma(color=@tooltip-background-color);
+}
+
+.tooltip .icon {
+	background:url("http://p.ebaystatic.com/aw/pics/cmp/ds3/sprds3_11.png") -230px -10px no-repeat;
+    height: 30px;
+    width: 25px;
+    position: absolute;
+    top : 9px;
+    left: 15px;
+}
+
+/*    left-top --- top-center ---- top-right    */
+/*           |                     |            */
+/* left-middle       target        right-middle */
+/*           |                     |            */
+/* bottom-left -- bottom-center -- right-bottom */
+
+.tooltip.right-middle {	
+	margin-left: 10px;
+
+	.notch {
+	    margin-top: -10px;
+	    top: 50%;
+	    left: -10px;
+	    border-left: 0;
+	    border-top: 10px solid transparent;
+	    border-bottom: 10px solid transparent;
+	    border-right: 10px solid @tooltip-background-color;
+
+		&.notch-border {
+			border-right-color: @tooltip-border-color;
+			left: -11px;
+		}
+	}
+}
+
+.tooltip.right-bottom {
+	margin-left: 10px;
+	border-top-left-radius: 0;
+
+	.notch {
+	    top: 0;
+	    left: -10px;
+	    border-left: 0;
+	    border-top: 5px solid @tooltip-background-color;
+	    border-right: 5px solid @tooltip-background-color;
+	    border-left: 5px solid transparent;
+	    border-bottom: 5px solid transparent;
+
+		&.notch-border {
+			border-top-color: @tooltip-border-color;
+			border-right-color: @tooltip-border-color;
+			left: -11px;
+		}
+	}
+}
+
+.tooltip.bottom-center {
+	margin-top: 10px;
+
+	.notch {
+	    top: -10px;
+	    left: 50%;
+	    margin-left: -10px;
+	    border-top: 0;
+	    border-bottom: 10px solid @tooltip-background-color;
+	    border-left: 10px solid transparent;
+	    border-right: 10px solid transparent;
+
+		&.notch-border {
+			border-bottom: 11px solid @tooltip-border-top-color;
+			top: -14px;
+		}
+	}
+}
+
+.tooltip.bottom-left {
+	margin-left: -10px;
+	border-top-right-radius: 0;
+
+	.notch {
+	    top: 0;
+	    right: -10px;
+	    border-left: 0;
+	    border-top: 5px solid @tooltip-background-color;
+	    border-left: 5px solid @tooltip-background-color;
+	    border-right: 5px solid transparent;
+	    border-bottom: 5px solid transparent;
+
+		&.notch-border {
+			border-top-color: @tooltip-border-color;
+			border-left-color: @tooltip-border-color;
+			right: -11px;
+		}
+	}
+}
+
+.tooltip.left-middle {
+	margin-left: -10px;
+
+	.notch {
+	    top: 50%;
+	    margin-top: -10px;
+	    right: -10px;
+	    border-left: 10px solid @tooltip-background-color;
+	    border-right: 0;
+	    border-top: 10px solid transparent;
+	    border-bottom: 10px solid transparent;
+
+		&.notch-border {
+			border-left-color: @tooltip-border-color;
+			right: -11px;
+		}
+	}
+}
+
+.tooltip.left-top {
+	margin-left: -10px;
+	border-bottom-right-radius: 0;
+
+	.notch {
+	    bottom: 0;
+	    right: -10px;
+	    border-bottom: 5px solid @tooltip-background-color;
+	    border-left: 5px solid @tooltip-background-color;
+	    border-top: 5px solid transparent;
+	    border-right: 5px solid transparent;
+
+		&.notch-border {
+			border-bottom-color: @tooltip-border-color;
+			border-left-color: @tooltip-border-color;
+			right: -11px;
+		}
+	}
+}
+
+.tooltip.top-center {
+	margin-top: -10px;
+
+	.notch {
+	    left: 50%;
+	    margin-left: -10px;
+	    bottom: -10px;
+	    border-top: 10px solid @tooltip-background-color;
+	    border-left: 10px solid transparent;
+	    border-bottom: 0;
+	    border-right: 10px solid transparent;
+
+		&.notch-border {
+			border-top-color: @tooltip-border-color;
+			bottom: -11px;
+		}
+	}
+}
+
+.tooltip.top-right {
+	margin-left: 10px;
+	border-bottom-left-radius: 0;
+
+	.notch {
+	    bottom: 0;
+	    left: -10px;
+	    bottom: 0;
+	    border-top: 5px solid transparent;
+	    border-left: 5px solid transparent;
+	    border-bottom: 5px solid @tooltip-background-color;
+	    border-right: 5px solid @tooltip-background-color;
+	    
+	    &.notch-border {
+			border-bottom-color: @tooltip-border-color;
+			border-right-color: @tooltip-border-color;
+			left: -11px;
+		}
+	}
+}
