@@ -1,3 +1,5 @@
+/* ------------------------------ Available variables ----------------------------- */
+
 @tooltip-z-index: 1;
 @tooltip-color: #000;
 @tooltip-radius: 3px;
@@ -6,9 +8,11 @@
 @tooltip-border-color: #ccc;
 @tooltip-font-size: inherit;
 @tooltip-line-height: inherit;
-@tooltip-background-color: #fff;
+@tooltip-background-color: #eee;
 @tooltip-border: 1px solid @tooltip-border-color;
-@tooltip-shadow: 3px 3px 10px rgba(0, 0, 0, .3);
+@tooltip-shadow: 3px 3px 5px rgba(0, 0, 0, .1);
+
+/* -------------------------------------------------------------------------------- */
 
 .tooltip {
     position: absolute;
@@ -43,11 +47,15 @@
     _filter: chroma(color=@tooltip-background-color);
 }
 
-/*    left-top --- top-center ---- top-right    */
-/*           |                     |            */
-/* left-middle       target        right-middle */
-/*           |                     |            */
-/* bottom-left -- bottom-center -- right-bottom */
+/* ----------------------------------- Positions ----------------------------------
+
+    left-top [5] --- top-center [6] ---- top-right [7]
+               |                         |
+ left-middle [4]         target          right-middle [0]
+               |                         |
+ bottom-left [3] -- bottom-center [2] -- right-bottom [1]
+
+-------------------------------------------------------------------------------- */
 
 .tooltip.right-middle {	
 	margin-left: 10px;
