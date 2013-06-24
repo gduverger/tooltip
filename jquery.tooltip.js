@@ -7,21 +7,21 @@
 
                     /* ----------------------------- Available options ---------------------------- */
 
-                    $box: null,
-                    selector: null,
-                    hideTimeout: 100,
-                    showTimeout: 100,
-                    hideOn: "mouseout",
-                    showOn: "mouseover",
-                    canHoverTooltip: true,
-                    $tooltip: $( "#tooltip" ),
-                    extraMargins: {
+                    $box: null,                 // A jQuery element in which the tooltip will be displayed
+                    selector: null,             // The target element that will trigger the tooltip
+                    hideTimeout: 100,           // A timeout before the tooltip will be hidden
+                    showTimeout: 100,           // A timeout before the tooltip will be shown
+                    hideOn: "mouseout",         // The event to hide the tooltip on
+                    showOn: "mouseover",        // The event to show the tooltip on
+                    canHoverTooltip: true,      // If you want to be able to mouseover the tooltip
+                    $tooltip: $( "#tooltip" ),  // The tooltip itself
+                    extraMargins: {             // To display the toolip further away from the target
                         top: 0,
                         right: 0,
                         bottom: 0,
                         left: 0
                     },
-                    preferredPositions: [
+                    preferredPositions: [       // The order in which the tooltip will try to render itself
                         "right-middle",
                         "right-bottom",
                         "bottom-center",
